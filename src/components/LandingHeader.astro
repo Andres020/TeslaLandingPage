@@ -1,0 +1,153 @@
+---
+import Logo from "./Logo.astro";
+---
+
+<header
+  id="landing-header"
+  class="text-white py-3 px-10 flex items-center fixed top-0 w-full justify-between z-30 transition-colors duration-300"
+>
+  <div class="flex flex-grow basis-0">
+    <a href="#home"> <Logo /></a>
+  </div>
+
+  <nav>
+    <ul
+      class="hidden lg:flex text-sm [&>li>a]:font-medium [&>li>a]:inline-block [&>li>a]:px-4 [&>li>a]:py-2"
+    >
+      <li><a href="#model-s">Model S</a></li>
+      <li><a href="#model-3">Model 3</a></li>
+      <li><a href="#model-x">Model X</a></li>
+      <li><a href="#model-y">Model Y</a></li>
+      <li><a href="#powerwall">Powerwall</a></li>
+      <li><a href="#carga">Carga</a></li>
+    </ul>
+  </nav>
+
+  <nav class="flex flex-grow basis-0 justify-end">
+    <ul
+      class="flex text-sm [&>li>a]:font-medium [&>li>a]:inline-block [&>li>a]:px-4 [&>li>a]:py-2"
+    >
+      <li><a href="#soporte">Soporte</a></li>
+      <li><a href="#tienda">Tienda</a></li>
+      <li><a href="#cuenta">Cuenta</a></li>
+      <li><a id="menu-btn" href="#menu">Menú</a></li>
+    </ul>
+  </nav>
+
+  <!-- mobile menu -->
+  <nav
+    id="modal-menu"
+    class="hidden flex-col bg-white text-black fixed top-0 left-0 right-0 bottom-0 overflow-scroll overflow-x-hidden"
+  >
+    <div class="flex justify-end m-3">
+      <button
+        id="close-menu"
+        class="text-black p-2 transition-colors hover:bg-slate-100 duration-300"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+    <ul
+      id="menu-list"
+      class=`
+      flex 
+      flex-col
+      flex-grow
+      gap-1
+      text-sm [&>li>a]:font-medium 
+      p-3
+      [&>li>a]:inline-block 
+      [&>li>a]:text-lg
+      [&>li>a]:px-4 
+      [&>li>a]:py-2
+      [&>li>a]:my-1
+      [&>li>a]:transition-colors 
+      [&>li>a]:duration-300
+      [&>li>a]:w-full
+      [&>li>a]:roundend
+
+      `
+    >
+      <li><a class="hover:bg-slate-100" href="#model-s">Model S</a></li>
+      <li><a class="hover:bg-slate-100" href="#model-3">Model 3</a></li>
+      <li><a class="hover:bg-slate-100" href="#model-x">Model X</a></li>
+      <li><a class="hover:bg-slate-100" href="#model-y">Model Y</a></li>
+      <li><a class="hover:bg-slate-100" href="#powerwall">Powerwall</a></li>
+      <li><a class="hover:bg-slate-100" href="#carga">Carga</a></li>
+      <li><a class="hover:bg-slate-100" href="#soporte">Soporte</a></li>
+      <li><a class="hover:bg-slate-100" href="#tienda">Tienda</a></li>
+      <li><a class="hover:bg-slate-100" href="#cuenta">Cuenta</a></li>
+    </ul>
+  </nav>
+
+  <div
+    id="menu-backdrop"
+    class={`
+        absolute bg-black/5 backdrop-blur-lg rounded
+        translate-x-[var(--left)] translate-y-[var(--top)]
+        top-0 left-0
+        w-[var(--width)] h-[var(--height)]
+        transition-all duration-300
+        ease-in-out  opacity-0 -z-10
+      `}
+  >
+  </div>
+</header>
+
+<script>
+  const listItems = document.querySelectorAll("#landing-header li");
+  const menuBackdrop = document.querySelector("#menu-backdrop") as HTMLElement;
+  
+
+  listItems.forEach((item) => {
+    item.addEventListener("mouseenter", () => {
+      const { top, left, width, height } = item.getBoundingClientRect();
+
+      menuBackdrop.style.setProperty("--top", `${top}px`);
+      menuBackdrop.style.setProperty("--left", `${left}px`);
+      menuBackdrop.style.setProperty("--width", `${width}px`);
+      menuBackdrop.style.setProperty("--height", `${height}px`);
+      menuBackdrop.style.opacity = "1";
+      menuBackdrop.style.visibility = "visible";
+    });
+
+    item.addEventListener("mouseleave", () => {
+      menuBackdrop.style.opacity = "0";
+      menuBackdrop.style.visibility = "hidden";
+    });
+  });
+</script>
+
+<script>
+  const menuBtn = document.getElementById("menu-btn");
+  const modalMenu = document.getElementById("modal-menu");
+  const closeMenu = document.getElementById("close-menu");
+  const menuList = document.getElementById("menu-list");
+
+  function toggleMenu(show: boolean) {
+    if (modalMenu) {
+      modalMenu.style.display = show ? "block" : "none";
+    }
+  }
+
+  menuBtn?.addEventListener("click", () => toggleMenu(true));
+  closeMenu?.addEventListener("click", () => toggleMenu(false));
+
+  if (menuList) {
+    menuList.addEventListener("click", (event) => {
+      toggleMenu(false);
+    });
+  }
+</script>
